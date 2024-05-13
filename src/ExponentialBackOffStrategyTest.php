@@ -148,4 +148,11 @@ class ExponentialBackOffStrategyTest extends TestCase
 
         $backoff->backOff(PHP_INT_MAX, $exception);
     }
+
+    /** @test */
+    public function it_does_not_throw_exception_when_sleep_time_overflows_and_instead_respects_the_max_sleep_time()
+    {
+        $backoff = new ExponentialBackOffStrategy(50, 10000, 5000);
+        $backoff->backOff(60, new RuntimeException('oops'));
+    }
 }
