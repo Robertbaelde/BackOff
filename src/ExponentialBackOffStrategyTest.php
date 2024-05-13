@@ -152,7 +152,9 @@ class ExponentialBackOffStrategyTest extends TestCase
     /** @test */
     public function it_does_not_throw_exception_when_sleep_time_overflows_and_instead_respects_the_max_sleep_time()
     {
-        $backoff = new ExponentialBackOffStrategy(50, 10000, 5000);
+        $backoff = new ExponentialBackOffStrategy(50, 10000, 5000, 2.0, $this->sleeper);
         $backoff->backOff(60, new RuntimeException('oops'));
+
+        self::assertEquals(5000, $this->recordedSleep);
     }
 }
